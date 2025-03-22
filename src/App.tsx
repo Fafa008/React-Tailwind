@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Lenis from "@studio-freight/lenis";
-import { Moon, Sun } from "lucide-react";
+import Hero from "./components/Hero.tsx";
+import HorizontalScroll from "./components/Horizontal.tsx";
+import { Section } from "./components/section/section.tsx";
+import { InfiniteScroll } from "./components/InfinitScroll.tsx";
+import { Star } from "lucide-react";
 
 function App() {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -45,22 +49,32 @@ function App() {
     };
   }, []);
 
+  const items = Array.from({ length: 5 }, (_, i) => (
+    <div
+      key={i}
+      className="inline-flex items-center justify-center px-8 py-4 mx-4 bg-white rounded-lg shadow-md"
+    >
+      <Star className="w-6 h-6 mr-2 text-yellow-500" />
+      <span className="text-lg font-semibold">Item {i + 1}</span>
+    </div>
+  ));
+
   return (
     <>
-      <button
-        onClick={() => setIsDark(!isDark)}
-        className="fixed top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-800 z-50"
-      >
-        {isDark ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
-      </button>
-      <section className="h-screen w-full bg-red-500 dark:bg-red-900">
-        1
-      </section>
-      <section className="h-screen w-full bg-blue-500 dark:bg-blue-900">
-        2
-      </section>
+      <Hero />
+      <Section color="bg-green-500" title="Section 2" />
+      <HorizontalScroll />
       <section className="h-screen w-full bg-green-500 dark:bg-green-900">
-        3
+        <InfiniteScroll direction="left" speed="fast">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 px-4 py-2 bg-gray-200 rounded-lg"
+            >
+              Item {index + 1}
+            </div>
+          ))}
+        </InfiniteScroll>
       </section>
       <section className="h-screen w-full bg-yellow-500 dark:bg-yellow-900">
         4
